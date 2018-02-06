@@ -12,7 +12,7 @@ public class Bank {
 	/** starting point for account numbers -- currently set to 100 */
     public static final int FIRST_ACCOUNT_NUMBER = 100; 
     /* number of the first account created */
-    private static int accountCounter = FIRST_ACCOUNT_NUMBER;
+    //private static int accountCounter = FIRST_ACCOUNT_NUMBER;
 	/**
 	 * Default constructor for Bank class. Initializes the HashMap
 	 */
@@ -27,21 +27,21 @@ public class Bank {
 	 */
 	public void createAccount(BankCustomer newCustomer) {
 		if (newCustomer != null) {
-			String accountNumber = assignAccountNumber();
+			String accountNumber = newCustomer.getAccountNumber();
 			theBank.put(accountNumber, newCustomer);
 		}
 	}
 	
-    /**
-     * Assigns the first available account number and updates
-     * the account counter for the next number
-     */
-    private String assignAccountNumber()
-    {
-        String setAccountNumber = Integer.toString(accountCounter);                    // get the first available number
-        accountCounter++; // for the next account
-        return setAccountNumber;
-    }
+//    /**
+//     * Assigns the first available account number and updates
+//     * the account counter for the next number
+//     */
+//    private String assignAccountNumber()
+//    {
+//        String setAccountNumber = Integer.toString(accountCounter);                    // get the first available number
+//        accountCounter++; // for the next account
+//        return setAccountNumber;
+//    }
 	
 	/**
 	 * Removes an BankCustomer from the HashMap.

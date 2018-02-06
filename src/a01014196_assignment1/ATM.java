@@ -9,6 +9,7 @@ package a01014196_assignment1;
  */
 public class ATM {
 	private InputReader inputReader; //connects InputReader to ATM
+	private boolean isSignedIn; //checks whether user signed in
 	/**
 	 * Default constructor. Calls the initialize() method to seed the Bank with some BankCustomers. 
 	 * Calls the run() method to perform the primary program functions.
@@ -41,7 +42,8 @@ public class ATM {
 			//inputReader.getInt()
 			//switch case
 			//verifyCustomer
-			//if not signed in 
+			//if not signed in
+			isSignedIn = false;
 			if (!isSignedIn) {
 				printWelcome();
 			} else {
@@ -55,7 +57,7 @@ public class ATM {
      * Print out the opening ATM menu for BankCustomer.
      */
 	private void printWelcome() {
-		System.out.println("Welcome to Make Banking Simple");
+		System.out.println("Welcome to Bullwinkle's Bank");
 		printMenu();
 	}
 	
@@ -83,6 +85,13 @@ public class ATM {
 	 * If not, then verifyCustomer() is called and the menu is displayed again.
 	 */
 	public void transactDeposit() {
+		if (isSignedIn) {
+			//get account number
+			//get input of amount to deposit
+			Bank.deposit(account, amount);
+		} else {
+			verifyCustomer();
+		}	
 	}
 	
 	/**
@@ -90,7 +99,13 @@ public class ATM {
 	 * If not, then verifyCustomer() is called and the menu is displayed again.
 	 */
 	public void transactWithdraw() {
-
+		if (isSignedIn) {
+			//get account number
+			//get input of amount to withdraw
+			Bank.withdraw(account, amount);
+		} else {
+			verifyCustomer();
+		}
 	}
 	
 	/**
@@ -98,6 +113,13 @@ public class ATM {
 	 * if the customer has been previously verified.
 	 */
 	public void displayAccountInformation() {
+		if (isSignedIn) {
+			//get account number
+			//get input of amount to deposit
+			Bank.displayCustomerInformation(customer);
+		} else {
+			verifyCustomer();
+		}
 	}
 	
 	/**
@@ -105,7 +127,9 @@ public class ATM {
 	 * Will set a boolean so the user does not have to sign in again during the session.
 	 */
 	public void verifyCustomer() {
-		printMenu();
+		//printMenu();
+		
+		if ()
 	}
 	
 }
