@@ -85,7 +85,9 @@ public class BankCustomer {
 	 *            the accountNumber to set
 	 */
 	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
+		if (accountNumber != null && accountNumber.trim().length() > 0) {
+			this.accountNumber = accountNumber;
+		}
 	}
 
 	/**
@@ -141,5 +143,12 @@ public class BankCustomer {
             currentBalance -= amount;
             setBalance(currentBalance);
         }
+	}
+	
+	/**
+	 * @return details for BankCustomer
+	 */
+	public String toString() {
+		return "BankCustomer [firstName=" + firstName + ", lastName=" + lastName + ", accountNumber=" + accountNumber + ", passcode=" + passcode + ", balance=" + currentBalance +"]";
 	}
 }
