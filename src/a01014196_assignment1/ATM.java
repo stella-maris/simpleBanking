@@ -49,7 +49,25 @@ public class ATM {
 			} else {
 				printMenu();
 			}
-			String input = inputReader.getStringInput();
+			int input = inputReader.getIntInput();
+			switch (input) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				System.out.println("Thank you for banking at Bullwinkle's Bank");
+				
+				done = true;
+				break;
+			default: 
+				System.err.println("Invalid selection");
+				break;
+			}
 		}
 	}
 	
@@ -77,7 +95,17 @@ public class ATM {
 	 * as seed data for testing.
 	 */
 	public void initialize() {
-		
+		//initializes Customer references
+		BankCustomer customer1 = new BankCustomer();
+		customer1.setFirstName("Augustus");
+		customer1.setLastName("Caesar");
+		customer1.setAccountNumber("123");
+		customer1.setPasscode("password");
+		BankCustomer customer2 = new BankCustomer("Mary", "Lee", "ST-234", "123");
+		//Adds customer references to hashmap
+		Bank bank = new Bank();
+		bank.createAccount(customer1);
+		bank.createAccount(customer2);
 	}
 	
 	/**
@@ -128,8 +156,6 @@ public class ATM {
 	 */
 	public void verifyCustomer() {
 		//printMenu();
-		
-		if ()
 	}
 	
 }
