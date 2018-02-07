@@ -83,8 +83,17 @@ public class Bank {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param accountNumber	The account number to verify
+	 * @return boolean confirming whether account exists.
+	 */
 	public boolean containsKey(String accountNumber) {
 		return theBank.containsKey(accountNumber);
+	}
+	
+	public BankCustomer get(String accountNumber) {
+		return theBank.get(accountNumber);
 	}
 	
 	/**
@@ -95,7 +104,7 @@ public class Bank {
 	public static void displayCustomerInformation(BankCustomer customer) {
 		for (String accountHolder : theBank.keySet()) {
 			if (theBank.get(accountHolder).equals(customer)) {
-				customer.toString();
+				System.out.println(customer);
 			}
 		}
 	}
@@ -105,7 +114,7 @@ public class Bank {
 	 */
 	public static void displayAllCustomers() {
 		for (String customer : theBank.keySet()) {
-			customer.toString();
+			System.out.println(theBank.get(customer));
 		}
 	}
 }

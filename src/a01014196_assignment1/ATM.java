@@ -2,7 +2,6 @@
  * 
  */
 package a01014196_assignment1;
-import java.util.HashMap;
 /**
  * @author Mary Lee (a01014196)
  *
@@ -27,7 +26,7 @@ public class ATM {
 	 * @param args	For program arguments (not used)
 	 */
 	public static void main(java.lang.String[] args) {
-		new ATM().run();
+		new ATM();
 	}
 	
 	/**
@@ -57,48 +56,47 @@ public class ATM {
 		// Enter the main command loop.  Here we repeatedly read menu options and
         // execute them until the user exits.
 		isSignedIn = false;
-		if (!isSignedIn) {
-			printWelcome();
-		} else {
-			printMenu();
-		}
 		boolean done = false;
-		
 		while (!done) {
+			printWelcome();
 			//call method welcome which holds menu
 			//inputReader.getInt()
 			//switch case
 			//verifyCustomer
 			//if not signed in
 			int input = inputReader.getIntInput();
-			//System.out.println(isSignedIn);
-			switch (input) {
-			case 1:
-				verifyCustomer();
-				break;
-			case 2:
-				transactDeposit();
-				break;
-			case 3:
-				transactWithdraw();
-				break;
-			case 4:
-				displayAccountInformation();
-				break;
-			case 5:
-				done = true;
-				break;
-			default: 
-				System.err.println("Invalid selection");
-				break;
-			}
-			//done = true;
+			done = processInput(input);
 		}
 		System.out.println("Thank you for banking at Bullwinkle's Bank");
 		System.out.println("DEBUG: Displaying all the accounts in the bank.");
 		Bank.displayAllCustomers();
+		done = true;
 	}
 	
+	private boolean processInput(int input) {
+		boolean exitMenu = false;
+		switch (input) {
+		case 1:
+			verifyCustomer();
+			break;
+		case 2:
+			transactDeposit();
+			break;
+		case 3:
+			transactWithdraw();
+			break;
+		case 4:
+			displayAccountInformation();
+			break;
+		case 5:
+			exitMenu = true;
+			break;
+		default: 
+			System.err.println("Invalid selection");
+			return exitMenu;
+		}
+		return exitMenu;
+	}
     /**
      * Print out the opening ATM menu for BankCustomer.
      */
@@ -117,6 +115,13 @@ public class ATM {
 		System.out.println("3 - Withdraw");
 		System.out.println("4 - Display Account Info");
 		System.out.println("5 - Exit");
+	}
+	
+	/**
+	 * Displays error message if user is not signed in.
+	 */
+	public void notSignedInErrorMsg() {
+		System.err.println("ERROR: You must LOGIN before you can perform a transaction.");
 	}
 	
 	/**
@@ -162,18 +167,14 @@ public class ATM {
 	public void displayAccountInformation() {
 		if (isSignedIn) {
 			//get account number
-			//get input of amount to deposit
 			System.out.println("Here is your information:");
-			//BankCustomer customer = 
-			//bank.displayCustomerInformation(customer);
+			//System.out.println(bank.get(account));
+			Bank.displayCustomerInformation(bank.get(account));
 			printMenu();
 		} else {
+			notSignedInErrorMsg();
 			verifyCustomer();
 		}
-	}
-	
-	public void notSignedInErrorMsg() {
-		System.err.println("ERROR: You must LOGIN before you can perform a transaction.");
 	}
 	
 	/**
@@ -183,15 +184,23 @@ public class ATM {
 	public void verifyCustomer() {
 		System.out.println("Enter Account Number:");
 		account = inputReader.getStringInput();
-		boolean hasAccount = bank.containsKey(account);
-		if (hasAccount) {
-			//System.out.println("Account:" + getAccount);
-			System.out.println("Enter Passcode:");
-			String getPasscode = inputReader.getStringInput();
-			System.out.println("passcode:"+ getPasscode);
-			isSignedIn = true;
-		}
 		
+		System.out.println("Enter Passcode:");
+		String getPasscode = inputReader.getStringInput();
+		
+		boolean hasAccount = bank.containsKey(account);
+		
+		if (hasAccount) {
+			BankCustomer verifiedCustomer = bank.get(account);
+			if (verifiedCustomer.getPasscode().equals(getPasscode)) {
+				//System.out.println("Password matches");
+				isSignedIn = true;
+			} else {
+				System.err.println("ERROR: Either account number or passcode is not correct.");
+			}
+		} else {
+			System.err.println("ERROR: Either account number or passcode is not correct.");
+		}
 		printMenu();
 	}
 }
