@@ -83,6 +83,10 @@ public class Bank {
 		}
 	}
 	
+	public boolean containsKey(String accountNumber) {
+		return theBank.containsKey(accountNumber);
+	}
+	
 	/**
 	 * Displays the details of a BankCustomer element in the HshMap. 
 	 * Uses BankCustomer.toString() implementation.
@@ -95,7 +99,6 @@ public class Bank {
 			}
 		}
 	}
-	
 	/**
 	 * Displays all elements of the HashMap by using BankCustomer.toString() 
 	 * implementation of each

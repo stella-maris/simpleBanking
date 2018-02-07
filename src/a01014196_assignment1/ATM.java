@@ -2,7 +2,7 @@
  * 
  */
 package a01014196_assignment1;
-
+import java.util.HashMap;
 /**
  * @author Mary Lee (a01014196)
  *
@@ -10,6 +10,8 @@ package a01014196_assignment1;
 public class ATM {
 	private InputReader inputReader; //connects InputReader to ATM
 	private boolean isSignedIn; //checks whether user signed in
+	private Bank bank; 
+	private String account;
 	/**
 	 * Default constructor. Calls the initialize() method to seed the Bank with some BankCustomers. 
 	 * Calls the run() method to perform the primary program functions.
@@ -25,7 +27,25 @@ public class ATM {
 	 * @param args	For program arguments (not used)
 	 */
 	public static void main(java.lang.String[] args) {
-		new ATM();
+		new ATM().run();
+	}
+	
+	/**
+	 * Adds Customer references to the Back HashMap 
+	 * as seed data for testing.
+	 */
+	public void initialize() {
+		//initializes Customer references
+		BankCustomer customer1 = new BankCustomer();
+		customer1.setFirstName("Augustus");
+		customer1.setLastName("Caesar");
+		customer1.setAccountNumber("ST-123");
+		customer1.setPasscode("password");
+		BankCustomer customer2 = new BankCustomer("Mary", "Lee", "ST-234", "123");
+		//Adds customer references to hashmap
+		bank = new Bank();
+		bank.createAccount(customer1);
+		bank.createAccount(customer2);
 	}
 	
 	/**
@@ -36,39 +56,47 @@ public class ATM {
 	public void run() {		
 		// Enter the main command loop.  Here we repeatedly read menu options and
         // execute them until the user exits.
+		isSignedIn = false;
+		if (!isSignedIn) {
+			printWelcome();
+		} else {
+			printMenu();
+		}
 		boolean done = false;
+		
 		while (!done) {
 			//call method welcome which holds menu
 			//inputReader.getInt()
 			//switch case
 			//verifyCustomer
 			//if not signed in
-			isSignedIn = false;
-			if (!isSignedIn) {
-				printWelcome();
-			} else {
-				printMenu();
-			}
 			int input = inputReader.getIntInput();
+			//System.out.println(isSignedIn);
 			switch (input) {
 			case 1:
+				verifyCustomer();
 				break;
 			case 2:
+				transactDeposit();
 				break;
 			case 3:
+				transactWithdraw();
 				break;
 			case 4:
+				displayAccountInformation();
 				break;
 			case 5:
-				System.out.println("Thank you for banking at Bullwinkle's Bank");
-				
 				done = true;
 				break;
 			default: 
 				System.err.println("Invalid selection");
 				break;
 			}
+			//done = true;
 		}
+		System.out.println("Thank you for banking at Bullwinkle's Bank");
+		System.out.println("DEBUG: Displaying all the accounts in the bank.");
+		Bank.displayAllCustomers();
 	}
 	
     /**
@@ -90,23 +118,6 @@ public class ATM {
 		System.out.println("4 - Display Account Info");
 		System.out.println("5 - Exit");
 	}
-	/**
-	 * Adds Customer references to the Back HashMap 
-	 * as seed data for testing.
-	 */
-	public void initialize() {
-		//initializes Customer references
-		BankCustomer customer1 = new BankCustomer();
-		customer1.setFirstName("Augustus");
-		customer1.setLastName("Caesar");
-		customer1.setAccountNumber("123");
-		customer1.setPasscode("password");
-		BankCustomer customer2 = new BankCustomer("Mary", "Lee", "ST-234", "123");
-		//Adds customer references to hashmap
-		Bank bank = new Bank();
-		bank.createAccount(customer1);
-		bank.createAccount(customer2);
-	}
 	
 	/**
 	 * Performs a deposit into a BankCustomer's account. Checks to see if the user has signed in.
@@ -116,8 +127,12 @@ public class ATM {
 		if (isSignedIn) {
 			//get account number
 			//get input of amount to deposit
-			Bank.deposit(account, amount);
+			System.out.println("Enter the amount to deposit:");
+			Double amount = inputReader.getDoubleInput();
+			bank.deposit(account, amount);
+			printMenu();
 		} else {
+			notSignedInErrorMsg();
 			verifyCustomer();
 		}	
 	}
@@ -130,8 +145,12 @@ public class ATM {
 		if (isSignedIn) {
 			//get account number
 			//get input of amount to withdraw
-			Bank.withdraw(account, amount);
+			System.out.println("Enter the amount to withdraw:");
+			Double amount = inputReader.getDoubleInput();
+			bank.withdraw(account, amount);
+			printMenu();
 		} else {
+			notSignedInErrorMsg();
 			verifyCustomer();
 		}
 	}
@@ -144,10 +163,17 @@ public class ATM {
 		if (isSignedIn) {
 			//get account number
 			//get input of amount to deposit
-			Bank.displayCustomerInformation(customer);
+			System.out.println("Here is your information:");
+			//BankCustomer customer = 
+			//bank.displayCustomerInformation(customer);
+			printMenu();
 		} else {
 			verifyCustomer();
 		}
+	}
+	
+	public void notSignedInErrorMsg() {
+		System.err.println("ERROR: You must LOGIN before you can perform a transaction.");
 	}
 	
 	/**
@@ -155,7 +181,17 @@ public class ATM {
 	 * Will set a boolean so the user does not have to sign in again during the session.
 	 */
 	public void verifyCustomer() {
-		//printMenu();
+		System.out.println("Enter Account Number:");
+		account = inputReader.getStringInput();
+		boolean hasAccount = bank.containsKey(account);
+		if (hasAccount) {
+			//System.out.println("Account:" + getAccount);
+			System.out.println("Enter Passcode:");
+			String getPasscode = inputReader.getStringInput();
+			System.out.println("passcode:"+ getPasscode);
+			isSignedIn = true;
+		}
+		
+		printMenu();
 	}
-	
 }

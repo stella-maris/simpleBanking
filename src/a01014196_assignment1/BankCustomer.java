@@ -139,9 +139,11 @@ public class BankCustomer {
 	 * @param amount	a double to subtract from the balance field
 	 */
 	public void subtractFromBalance(double amount) {
-		if (amount > 0) {
+		if (amount > 0 && amount <= currentBalance) {
             currentBalance -= amount;
             setBalance(currentBalance);
+        } else {
+        		System.err.println("You do not have an overdraft");
         }
 	}
 	

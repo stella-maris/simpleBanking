@@ -29,6 +29,7 @@ public class InputReader {
 	 */
 	public int getIntInput() {
 		try {
+			System.out.print("> ");     // print prompt
 			return scanner.nextInt();
 		} catch (java.util.InputMismatchException e) {
 			System.out.println("Not a number - treating as zero");
